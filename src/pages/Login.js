@@ -68,14 +68,14 @@ export default function Login() {
       <RootStyle>
         <HeaderStyle>
 
-          {smUp && (
+          {/* {smUp && (
             <Typography variant="body2" sx={{ mt: { md: -2 } }}>
                 {t('login.signUpTitle')} {''}
               <Link variant="subtitle2" component={RouterLink} to="/register">
                 {t('login.signUpButton')}
               </Link>
             </Typography>
-          )}
+          )} */}
         </HeaderStyle>
 
         {mdUp && (
