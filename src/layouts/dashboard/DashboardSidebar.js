@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 // material
@@ -43,7 +43,8 @@ DashboardSidebar.propTypes = {
 
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
 
-  
+  const [ user, setUser ] = useState({});
+
   const { t } = useTranslation();
 
   const { pathname } = useLocation();
@@ -54,6 +55,12 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
     if (isOpenSidebar) {
       onCloseSidebar();
     }
+    setUser(account);
+    const loginUser = localStorage.getItem('user');
+    if(loginUser){
+      setUser(JSON.parse(loginUser));
+    }
+
   }, [pathname]);
 
   const renderContent = (
@@ -73,17 +80,17 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
             <Avatar src={account.photoURL} alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {account.displayName}
+                {user.name}
               </Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {account.role}
+                {user.role}
               </Typography>
             </Box>
           </AccountStyle>
         </Link>
       </Box>
 
-      <NavSection navConfig={navConfig} />
+      <NavSection navConfig={navConfig} user={user} />
 
       <Box sx={{ flexGrow: 1 }} />
 

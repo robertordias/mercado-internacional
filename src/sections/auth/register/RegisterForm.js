@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 // form
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -14,6 +15,9 @@ import { FormProvider, RHFTextField, RHFSelect } from '../../../components/hook-
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
+
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -54,12 +58,12 @@ export default function RegisterForm() {
           <RHFTextField name="lastName" label="Last name" />
         </Stack> */}
 
-        <RHFTextField name="name" label="Nome" />
-        <RHFTextField name="email" label="E-mail" />
+        <RHFTextField name="name" label={ t('registerUser.form.name') } />
+        <RHFTextField name="email" label={ t('registerUser.form.email') } />
 
         <RHFTextField
           name="password"
-          label="Senha"
+          label={ t('registerUser.form.password') }
           type={showPassword ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
@@ -74,7 +78,7 @@ export default function RegisterForm() {
 
         <RHFTextField
           name="password"
-          label="Confirmação de senha"
+          label={ t('registerUser.form.confirmPassword') }
           type={showPassword ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
@@ -89,7 +93,7 @@ export default function RegisterForm() {
 
         <RHFSelect 
           name="profile"
-          label="Perfil"
+          label={ t('registerUser.form.profile') }
           optionList={[
             { id: 3, name: 'ROLE_USER' },
             { id: 4, name: 'ROLE_ADMIN' }

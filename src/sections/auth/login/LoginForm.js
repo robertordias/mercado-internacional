@@ -12,10 +12,14 @@ import { useTranslation } from 'react-i18next';
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFTextField, RHFCheckbox } from '../../../components/hook-form';
 
+import USERLIST from '../../../_mock/user';
+
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
 
+  
+  const userList = USERLIST;
   
   const { t } = useTranslation();
 
@@ -39,13 +43,16 @@ export default function LoginForm() {
     defaultValues,
   });
 
-  const {
-    handleSubmit,
-    formState: { isSubmitting },
-  } = methods;
+  const {  handleSubmit, formState: { isSubmitting }, } = methods;
 
-  const onSubmit = async () => {
-    navigate('/upload', { replace: true });
+  const onSubmit = async (login) => {
+    
+    const currentUser = userList.find(user => user.email === login.email);
+    if( currentUser && currentUser.active ){
+      localStorage.setItem('user', JSON.stringify( currentUser ));
+      navigate('/', { replace: true });
+    }
+
   };
 
   return (

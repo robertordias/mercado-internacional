@@ -19,7 +19,6 @@ export default function RHFSelect({ optionList, name, ...other }) {
       control={control}
       render={({ field, fieldState: { error } }) => (
         <>
-        <InputLabel id="demo-simple-select-label">Perfil</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"

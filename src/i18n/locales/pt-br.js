@@ -59,6 +59,16 @@ export default {
             row: { true: 'Sim', false: 'Não' }
         }
       },
+      registerUser: {
+        title : 'Novo Usuário',
+        form: {
+           name: 'Nome',
+           email: 'E-mail',
+           password: 'Senha',
+           confirmPassword: 'Confirmação de Senha',
+           profile: 'Perfil'
+        }
+      },
       fileList: {
         title : 'Listagem de Arquivos',
         table: {

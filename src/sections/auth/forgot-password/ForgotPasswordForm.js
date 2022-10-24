@@ -41,7 +41,6 @@ export default function ForgotPasswordForm() {
   } = methods;
 
   const onSubmit = async () => {
-    console.log('passou')
     navigate('/reset-password', { replace: true });
   };
 

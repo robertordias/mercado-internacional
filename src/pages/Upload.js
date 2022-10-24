@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {useDropzone} from 'react-dropzone';
 import { useTranslation } from 'react-i18next';
 // material
@@ -41,6 +41,24 @@ const rejectStyle = {
 export const UploadCSVPage = () => {
 
   const { t } = useTranslation();
+
+  const [files, setFiles] = useState('');
+  const [acceptedFileItems, setAcceptedFileItems] = useState([]);
+
+  const filesContent = [];
+  const onDrop = useCallback( acceptedFiles => {
+    
+    setFiles(acceptedFiles);
+
+    filesContent.push(acceptedFiles.map(file => (
+      <li key={file.path}>
+        {file.path} - {file.size} bytes (enviado)
+      </li>
+    )));
+
+    setAcceptedFileItems(filesContent);
+
+  })
   
   const {
     acceptedFiles,
@@ -49,10 +67,10 @@ export const UploadCSVPage = () => {
     isFocused,
     isDragAccept,
     isDragReject
-  } = useDropzone({accept: {'text/csv': []}, maxFiles:2});
+  } = useDropzone({onDrop, accept: {'text/csv': []}, maxFiles:5});
 
 
-  const acceptedFileItems = acceptedFiles.map(file => (
+   acceptedFiles.map(file => (
     <li key={file.path}>
       {file.path} - {file.size} bytes
     </li>
@@ -68,6 +86,8 @@ export const UploadCSVPage = () => {
     isDragAccept,
     isDragReject
   ]);
+
+
 
   return (
     <Page title={t('title')}>

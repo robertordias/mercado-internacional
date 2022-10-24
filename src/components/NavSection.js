@@ -139,17 +139,23 @@ NavSection.propTypes = {
   navConfig: PropTypes.array,
 };
 
-export default function NavSection({ navConfig, ...other }) {
+export default function NavSection({ navConfig, user, ...other }) {
   const { pathname } = useLocation();
 
   const match = (path) => (path ? !!matchPath({ path, end: false }, pathname) : false);
 
+  const configNavToUser = (item) => {
+    if( item.onlyAdmin && user.roles && user.roles[0].name === "ROLE_ADMIN" ){
+      return ( <NavItem key={item.title} item={item} active={match} /> )
+    }
+    if( !item.onlyAdmin )
+    return ( <NavItem key={item.title} item={item} active={match} /> )
+  }
+
   return (
     <Box {...other}>
       <List disablePadding sx={{ p: 1 }}>
-        {navConfig.map((item) => (
-          <NavItem key={item.title} item={item} active={match} />
-        ))}
+        {navConfig.map((item) => configNavToUser(item) )}
       </List>
     </Box>
   );

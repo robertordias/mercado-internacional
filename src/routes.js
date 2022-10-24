@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Navigate, useRoutes } from 'react-router-dom';
 // layouts
 import Layout from './layouts/dashboard';
@@ -18,7 +19,7 @@ export default function Router() {
       path: '/',
       element: <Layout />,
       children: [
-        { path: 'upload', element: <UploadCSVPage /> },
+        { path: '/', element: <UploadCSVPage /> },
         { path: 'user', element: <User /> },
         { path: 'listArchives', element: <ListagemArquivos /> },
         { path: 'register', element: <Register /> },

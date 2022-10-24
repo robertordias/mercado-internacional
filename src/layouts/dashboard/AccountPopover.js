@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // @mui
 import { alpha } from '@mui/material/styles';
@@ -15,6 +15,8 @@ import account from '../../_mock/account';
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
+  
+  const [ user, setUser ] = useState({});
   
   const { t } = useTranslation();
 
@@ -46,8 +48,19 @@ export default function AccountPopover() {
   };
 
   const logout = () => {
+    localStorage.clear();
     navigate('/login', { replace: true });
   }
+
+  useEffect(() => {
+    setUser(account);
+    const loginUser = localStorage.getItem('user');
+    if(loginUser){
+      setUser(JSON.parse(loginUser));
+    }
+
+  }, []);
+
 
   return (
     <>
@@ -88,10 +101,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            {user.name}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {user.email}
           </Typography>
         </Box>
 

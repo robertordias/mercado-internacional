@@ -28,6 +28,7 @@ import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/archives';
+import { FileListMoreMenu } from '../sections/@dashboard/fileList';
 
 // ----------------------------------------------------------------------
 
@@ -173,7 +174,7 @@ export default function ListagemArquivos() {
                         <TableCell align="left">{name}</TableCell>
 
                         <TableCell align="right">
-                          <UserMoreMenu />
+                          <FileListMoreMenu />
                         </TableCell>
                       </TableRow>
                     );
