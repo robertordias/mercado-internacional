@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 // components
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFTextField } from '../../../components/hook-form';
+import { changePassword } from 'src/services/users';
 
 // ----------------------------------------------------------------------
 
@@ -24,13 +25,13 @@ export default function ForgotPasswordConfirmForm() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const PasswordSchema = Yup.object().shape({
-    password: Yup.string().required(t('login.form.emptyPassword')),
-    confirmPassword: Yup.string().required(t('forgotPasswordConfirm.form.emptyConfirmPassword')),
+    password: Yup.string().required(t('login.form.emptyPassword')).min(4, 'Mínimo 4 caracteres'),
+    repeatPassword: Yup.string().required(t('forgotPasswordConfirm.form.emptyConfirmPassword')).oneOf([Yup.ref('password'), null], 'As senhas devem corresponder').min(4, 'Mínimo 4 caracteres'),
   });
 
   const defaultValues = {
     password: '',
-    confirmPassword: '',
+    repeatPassword: '',
     remember: true,
   };
 
@@ -44,7 +45,8 @@ export default function ForgotPasswordConfirmForm() {
     formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = async () => {
+  const onSubmit = async (passwords) => {
+    await changePassword(passwords);
     navigate('/login', { replace: true });
   };
 
@@ -67,7 +69,7 @@ export default function ForgotPasswordConfirmForm() {
         />
 
       <RHFTextField
-          name="confirmPassword"
+          name="repeatPassword"
           label={t('forgotPasswordConfirm.form.confirmPassword')}
           type={showConfirmPassword ? 'text' : 'password'}
           InputProps={{

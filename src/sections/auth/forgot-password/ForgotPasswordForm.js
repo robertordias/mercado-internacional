@@ -42,9 +42,7 @@ export default function ForgotPasswordForm() {
   } = methods;
 
   const onSubmit = async (form) => {
-    console.log(form.email)
     await resetPassword(form.email);
-    navigate('/reset-password', { replace: true });
   };
 
   return (

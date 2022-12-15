@@ -1,14 +1,10 @@
 import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
-import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 // material
 import {
   Card,
   Table,
   Stack,
-  Avatar,
-  Button,
   Checkbox,
   TableRow,
   TableBody,
@@ -21,14 +17,12 @@ import {
 import { useTranslation } from 'react-i18next';
 // components
 import Page from '../components/Page';
-import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
-import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
+import { UserListHead } from '../sections/@dashboard/user';
 // mock
-import USERLIST from '../_mock/archives';
 import { FileListMoreMenu } from '../sections/@dashboard/fileList';
+import { getFiles } from 'src/services/files';
 
 // ----------------------------------------------------------------------
 
@@ -85,6 +79,20 @@ export default function ListagemArquivos() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
+  const [files, setFiles] = useState([]);
+  const [pagination, setPagination] = useState({});
+
+  useEffect( () => {
+    async function fetchData(){
+      let response = await getFiles();
+      setFiles(response?.data.files);
+      const { files, ...currentPagination } = response.data;
+      setPagination(currentPagination)
+    } 
+
+    fetchData();
+  }, []);
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -93,7 +101,7 @@ export default function ListagemArquivos() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
+      const newSelecteds = files.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -125,11 +133,13 @@ export default function ListagemArquivos() {
   };
 
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - files.length) : 0;
 
-  const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(files, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
+
+ 
 
   return (
     <Page title={t('title')}>
@@ -149,7 +159,7 @@ export default function ListagemArquivos() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={USERLIST.length}
+                  rowCount={files.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
@@ -202,7 +212,7 @@ export default function ListagemArquivos() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={USERLIST.length}
+            count={pagination.totalItems}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

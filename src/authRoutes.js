@@ -1,5 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "./sections/auth/auth";
+import api from "./services/api";
 
 export const AuthRoute = ({ children }) => {
     const { signed } = useAuth();

@@ -43,7 +43,7 @@ export default function Router() {
       element: <AuthRoute> <ForgotPassword /> </AuthRoute> ,
     },
     {
-      path: 'reset-password',
+      path: 'reset-password/:token',
       element: <AuthRoute> <ForgotPasswordConfirm /> </AuthRoute>,
     }
   ]);

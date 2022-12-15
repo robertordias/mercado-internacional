@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Card, Container, Stack, Typography } from '@mui/material';
 // components
 import Page from '../components/Page';
+import { uploadFiles } from 'src/services/files';
 
 // ----------------------------------------------------------------------
 
@@ -37,27 +38,38 @@ const rejectStyle = {
 };
 
 
-
 export const UploadCSVPage = () => {
 
   const { t } = useTranslation();
 
-  const [files, setFiles] = useState('');
   const [acceptedFileItems, setAcceptedFileItems] = useState([]);
 
-  const filesContent = [];
-  const onDrop = useCallback( acceptedFiles => {
-    
-    setFiles(acceptedFiles);
+  const [filesContent, setFilesContent] = useState([]);
 
+  const onDrop = useCallback( async acceptedFiles => {
+
+    if(acceptedFiles?.length < 2) {
+      return;
+    }
+    
+    const files = { file : acceptedFiles };
+
+    let statusFile = '';
+
+    let response = await uploadFiles(files);
+    if( response?.status != 201 ){
+      statusFile = 'falha';
+    } else {
+      statusFile = 'enviado';
+    }
+    
     filesContent.push(acceptedFiles.map(file => (
       <li key={file.path}>
-        {file.path} - {file.size} bytes (enviado)
+        {file.path} - {file.size} bytes ({statusFile})
       </li>
     )));
 
     setAcceptedFileItems(filesContent);
-
   })
   
   const {
@@ -67,7 +79,7 @@ export const UploadCSVPage = () => {
     isFocused,
     isDragAccept,
     isDragReject
-  } = useDropzone({onDrop, accept: {'text/csv': []}, maxFiles:5});
+  } = useDropzone({onDrop, accept: {'.DAT, .dat, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel': []}, maxFiles: 2});
 
 
    acceptedFiles.map(file => (
@@ -102,11 +114,12 @@ export const UploadCSVPage = () => {
             <p>{t('uploadCSV.descriptionButton')}</p>
           </div>
         </div>
+        { acceptedFileItems.length ? 
         <aside>
           <h4>{t('uploadCSV.fileList')}</h4>
           <ul>{acceptedFileItems}</ul>
-        </aside>
-
+        </aside> : 
+        <div></div> }
       </Container>
     </Page>
   );

@@ -1,4 +1,4 @@
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 // @mui
 import { useTranslation } from 'react-i18next';
@@ -10,6 +10,7 @@ import useResponsive from '../hooks/useResponsive';
 import Page from '../components/Page';
 // sections
 import { ForgotPasswordConfirmForm } from '../sections/auth/forgot-password-confirm';
+import api from 'src/services/api';
 
 // ----------------------------------------------------------------------
 
@@ -32,6 +33,10 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function ForgotPasswordConfirm() {
+  
+  const { token } = useParams();
+
+  api.defaults.headers.Authorization = `Bearer ${token}`;
 
   const { t } = useTranslation();
 

@@ -20,3 +20,10 @@ export const resetPassword = async (email) => {
 
     return response.data;
 }
+
+export const changePassword = async (passwords) => {
+
+    const response = await api.put(`/api/users/password`, passwords );
+
+    return response.data;
+}
