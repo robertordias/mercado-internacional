@@ -59,6 +59,7 @@
     "react/no-unstable-nested-components": 0,
     "react/function-component-definition": 0,
     "react/jsx-no-constructed-context-values": 0,
+    "import/no-unresolved": 0,
     "no-unused-vars": [
       1,
       {
@@ -76,7 +77,7 @@
   "settings": {
     "import/resolver": {
       "node": {
-        "extensions": [".js", ".jsx"],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"],
         "moduleDirectory": ["src", "node_modules"]
       }
     }

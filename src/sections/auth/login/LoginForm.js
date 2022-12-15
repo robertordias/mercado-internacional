@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 import { useState } from 'react';
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
+import { useAuth } from '../auth';
 // form
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -12,18 +13,14 @@ import { useTranslation } from 'react-i18next';
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFTextField, RHFCheckbox } from '../../../components/hook-form';
 
-import USERLIST from '../../../_mock/user';
-
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
 
   
-  const userList = USERLIST;
+  const context = useAuth();
   
   const { t } = useTranslation();
-
-  const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -46,13 +43,7 @@ export default function LoginForm() {
   const {  handleSubmit, formState: { isSubmitting }, } = methods;
 
   const onSubmit = async (login) => {
-    
-    const currentUser = userList.find(user => user.email === login.email);
-    if( currentUser && currentUser.active ){
-      localStorage.setItem('user', JSON.stringify( currentUser ));
-      navigate('/', { replace: true });
-    }
-
+    context.Login({username: login.email, password: login.password});
   };
 
   return (

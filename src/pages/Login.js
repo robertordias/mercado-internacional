@@ -1,4 +1,6 @@
+import { useContext } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import AuthContext from 'src/sections/auth/auth';
 // @mui
 import { useTranslation } from 'react-i18next';
 import { styled } from '@mui/material/styles';

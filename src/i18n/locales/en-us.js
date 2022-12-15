@@ -36,7 +36,7 @@ export default {
         }
       },
       nav: {
-        uploadCSV: 'Upload CSV',
+        uploadCSV: 'Upload Files',
         users: 'Users',
         fileList: 'File List',
         buttons: {
@@ -46,7 +46,7 @@ export default {
         }
       },
       uploadCSV: {
-        title : 'Upload CSV',
+        title : 'Upload Files',
         descriptionButton: 'Drag files here, or click to select them.',
         fileList: 'Files'
       },

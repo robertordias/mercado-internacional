@@ -10,7 +10,7 @@ const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 const navConfig = [
   {
     title: <Translator path="nav.uploadCSV"/> ,
-    path: '/',
+    path: '/upload',
     icon: getIcon('eva:shopping-bag-fill'),
     onlyAdmin: false
   },

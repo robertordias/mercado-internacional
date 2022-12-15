@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { Navigate, useRoutes } from 'react-router-dom';
 // layouts
 import Layout from './layouts/dashboard';
@@ -10,36 +10,41 @@ import { UploadCSVPage } from './pages/Upload';
 import ListagemArquivos from './pages/ListaArquivos';
 import ForgotPassword from './pages/ForgotPassword';
 import ForgotPasswordConfirm from './pages/ForgotPasswordConfirm';
+import AuthContext from './sections/auth/auth';
+import { ProtectedRoute } from './protectedRoutes';
+import { AuthRoute } from './authRoutes';
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
+  const context = useContext(AuthContext);
+
   return useRoutes([
     {
       path: '/',
-      element: <Layout />,
+      element: <ProtectedRoute> <Layout /></ProtectedRoute>,
       children: [
-        { path: '/', element: <UploadCSVPage /> },
-        { path: 'user', element: <User /> },
-        { path: 'listArchives', element: <ListagemArquivos /> },
-        { path: 'register', element: <Register /> },
+        { path: '/upload', element:  <ProtectedRoute> <UploadCSVPage /> </ProtectedRoute> },
+        { path: 'user', element: <ProtectedRoute> <User /> </ProtectedRoute> },
+        { path: 'listArchives', element: <ProtectedRoute><ListagemArquivos /> </ProtectedRoute> },
+        { path: 'register', element: <ProtectedRoute><Register /></ProtectedRoute> },
       ],
     },
     {
       path: 'login',
-      element: <Login />,
+      element: <AuthRoute> <Login /> </AuthRoute> ,
     },
     {
       path: 'register',
-      element: <Register />,
+      element: <AuthRoute> <Register /> </AuthRoute>,
     },
     {
       path: 'forgot-password',
-      element: <ForgotPassword />,
+      element: <AuthRoute> <ForgotPassword /> </AuthRoute> ,
     },
     {
       path: 'reset-password',
-      element: <ForgotPasswordConfirm />,
+      element: <AuthRoute> <ForgotPasswordConfirm /> </AuthRoute>,
     }
   ]);
 }

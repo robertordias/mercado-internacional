@@ -24,14 +24,12 @@ export default function RHFSelect({ optionList, name, ...other }) {
           id="demo-simple-select"
           {...field}
           fullWidth
-          value={typeof field.value === 'number' && field.value === 0 ? '' : field.value}
-          error={!!error}
-          helperText={error?.message}
+          value={ field.value == undefined ? '' : field.value}
           {...other}
         >
          {
             optionList?.map( (x,y) => 
-            <MenuItem  key={y} value={x?.id}> {x?.name}</MenuItem > )
+            <MenuItem selected={x?.name === 'USER'} key={y} value={x?.value}> {x?.name}</MenuItem > )
          }
         </Select>
         </>

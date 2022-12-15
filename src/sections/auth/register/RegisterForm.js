@@ -11,6 +11,7 @@ import { LoadingButton } from '@mui/lab';
 // components
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFTextField, RHFSelect } from '../../../components/hook-form';
+import { createUser } from 'src/services/users';
 
 // ----------------------------------------------------------------------
 
@@ -23,17 +24,17 @@ export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const RegisterSchema = Yup.object().shape({
-    firstName: Yup.string().required('First name required'),
-    lastName: Yup.string().required('Last name required'),
+    name: Yup.string().required('Nome é obrgatório'),
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    password: Yup.string().required('Password is required'),
+    // password: Yup.string().required(t('login.form.emptyPassword')).min(4, 'Mínimo 4 caracteres'),
+    // confirmPassword: Yup.string().required(t('forgotPasswordConfirm.form.emptyConfirmPassword')).oneOf([Yup.ref('password'), null], 'As senhas devem corresponder').min(4, 'Mínimo 4 caracteres'),
   });
 
   const defaultValues = {
-    firstName: '',
-    lastName: '',
+    name: '',
     email: '',
     password: '',
+    confirmPassword: ''
   };
 
   const methods = useForm({
@@ -46,8 +47,10 @@ export default function RegisterForm() {
     formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = async () => {
-    navigate('/dashboard', { replace: true });
+  const onSubmit = async (user) => {
+    user.role = [user.role];
+    await createUser(user);
+    navigate('/users', { replace: true });
   };
 
   return (
@@ -61,7 +64,7 @@ export default function RegisterForm() {
         <RHFTextField name="name" label={ t('registerUser.form.name') } />
         <RHFTextField name="email" label={ t('registerUser.form.email') } />
 
-        <RHFTextField
+        {/* <RHFTextField
           name="password"
           label={ t('registerUser.form.password') }
           type={showPassword ? 'text' : 'password'}
@@ -77,7 +80,7 @@ export default function RegisterForm() {
         />
 
         <RHFTextField
-          name="password"
+          name="confirmPassword"
           label={ t('registerUser.form.confirmPassword') }
           type={showPassword ? 'text' : 'password'}
           InputProps={{
@@ -89,19 +92,19 @@ export default function RegisterForm() {
               </InputAdornment>
             ),
           }}
-        />
+        /> */}
 
         <RHFSelect 
-          name="profile"
+          name="role"
           label={ t('registerUser.form.profile') }
           optionList={[
-            { id: 3, name: 'ROLE_USER' },
-            { id: 4, name: 'ROLE_ADMIN' }
+            { value: 'user', name: 'USER' },
+            { value: 'admin', name: 'ADMIN' }
           ]}
         />
 
         <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
-          Register
+          Cadastrar
         </LoadingButton>
       </Stack>
     </FormProvider>

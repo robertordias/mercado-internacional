@@ -145,11 +145,11 @@ export default function NavSection({ navConfig, user, ...other }) {
   const match = (path) => (path ? !!matchPath({ path, end: false }, pathname) : false);
 
   const configNavToUser = (item) => {
-    if( item.onlyAdmin && user.roles && user.roles[0].name === "ROLE_ADMIN" ){
-      return ( <NavItem key={item.title} item={item} active={match} /> )
+    if( item.onlyAdmin && user.roles && user.roles[0] === "ROLE_ADMIN" ){
+      return ( <NavItem key={item.path} item={item} active={match} /> )
     }
     if( !item.onlyAdmin )
-    return ( <NavItem key={item.title} item={item} active={match} /> )
+    return ( <NavItem key={item.path} item={item} active={match} /> )
   }
 
   return (

@@ -10,6 +10,7 @@ import { LoadingButton } from '@mui/lab';
 import { useTranslation } from 'react-i18next';
 // components
 import { FormProvider, RHFTextField } from '../../../components/hook-form';
+import { resetPassword } from 'src/services/users';
 
 // ----------------------------------------------------------------------
 
@@ -40,7 +41,9 @@ export default function ForgotPasswordForm() {
     formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = async () => {
+  const onSubmit = async (form) => {
+    console.log(form.email)
+    await resetPassword(form.email);
     navigate('/reset-password', { replace: true });
   };
 

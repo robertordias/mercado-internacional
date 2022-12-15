@@ -55,7 +55,6 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
     if (isOpenSidebar) {
       onCloseSidebar();
     }
-    setUser(account);
     const loginUser = localStorage.getItem('user');
     if(loginUser){
       setUser(JSON.parse(loginUser));
@@ -80,10 +79,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
             <Avatar src={account.photoURL} alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {user.name}
-              </Typography>
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {user.role}
+                {user.username}
               </Typography>
             </Box>
           </AccountStyle>
