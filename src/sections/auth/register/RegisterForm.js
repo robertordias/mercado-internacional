@@ -26,15 +26,11 @@ export default function RegisterForm() {
   const RegisterSchema = Yup.object().shape({
     name: Yup.string().required('Nome é obrgatório'),
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    // password: Yup.string().required(t('login.form.emptyPassword')).min(4, 'Mínimo 4 caracteres'),
-    // confirmPassword: Yup.string().required(t('forgotPasswordConfirm.form.emptyConfirmPassword')).oneOf([Yup.ref('password'), null], 'As senhas devem corresponder').min(4, 'Mínimo 4 caracteres'),
-  });
+    });
 
   const defaultValues = {
     name: '',
     email: '',
-    password: '',
-    confirmPassword: ''
   };
 
   const methods = useForm({
@@ -96,15 +92,16 @@ export default function RegisterForm() {
 
         <RHFSelect 
           name="role"
+          defaultValue='user'
           label={ t('registerUser.form.profile') }
           optionList={[
-            { value: 'user', name: 'USER' },
-            { value: 'admin', name: 'ADMIN' }
+            { value: 'user', name: t('registerUser.form.profileValues.user') },
+            { value: 'admin', name: t('registerUser.form.profileValues.admin') }
           ]}
         />
 
         <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
-          Cadastrar
+          {t('registerUser.form.register')}
         </LoadingButton>
       </Stack>
     </FormProvider>

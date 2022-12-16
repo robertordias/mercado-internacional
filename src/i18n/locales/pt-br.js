@@ -66,7 +66,9 @@ export default {
            email: 'E-mail',
            password: 'Senha',
            confirmPassword: 'Confirmação de Senha',
-           profile: 'Perfil'
+           profile: 'Perfil',
+           profileValues: { user: 'Usuário', admin: 'Administrador' },
+           register: 'Cadastrar'
         }
       },
       fileList: {

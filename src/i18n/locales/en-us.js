@@ -66,7 +66,9 @@ export default {
            email: 'Email',
            password: 'Password',
            confirmPassword: 'Confirm Password',
-           profile: 'Profile'
+           profile: 'Profile',
+           profileValues: { user: 'User', admin: 'Admin' },
+           register: 'Register'
         }
       },
       fileList: {

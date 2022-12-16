@@ -57,6 +57,7 @@ export const UploadCSVPage = () => {
     let statusFile = '';
 
     let response = await uploadFiles(files);
+    console.log(response);
     if( response?.status != 201 ){
       statusFile = 'falha';
     } else {

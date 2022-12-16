@@ -10,7 +10,7 @@ RHFSelect.propTypes = {
   name: PropTypes.string,
 };
 
-export default function RHFSelect({ optionList, name, ...other }) {
+export default function RHFSelect({ optionList, name, defaultValue, ...other }) {
   const { control } = useFormContext();
 
   return (
@@ -24,7 +24,7 @@ export default function RHFSelect({ optionList, name, ...other }) {
           id="demo-simple-select"
           {...field}
           fullWidth
-          value={ field.value == undefined ? '' : field.value}
+          value={ field.value == undefined ? defaultValue : field.value}
           {...other}
         >
          {
